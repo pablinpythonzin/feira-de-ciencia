@@ -11,3 +11,6 @@ __pycache__/
 
 # Credenciais e segredos - NUNCA enviar para o GitHub
 .env
+
+# Livros/PDFs com direitos autorais usados so como material de estudo local
+*.pdf
