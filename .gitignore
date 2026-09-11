@@ -1,0 +1,10 @@
+# Arquivos gerados ao rodar os exemplos (imagens de graficos, planilhas, csv de saida)
+*.png
+*.jpg
+*.jpeg
+*.xlsx
+*.csv
+
+# Cache padrao do Python
+__pycache__/
+*.pyc
