@@ -3,3 +3,4 @@ matplotlib
 selenium
 pygame
 openpyxl
+python-dotenv

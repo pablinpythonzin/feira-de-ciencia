@@ -8,3 +8,6 @@
 # Cache padrao do Python
 __pycache__/
 *.pyc
+
+# Credenciais e segredos - NUNCA enviar para o GitHub
+.env
