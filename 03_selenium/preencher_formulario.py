@@ -14,16 +14,18 @@
 #   1. pip install selenium python-dotenv
 #   2. Crie, nesta mesma pasta, um arquivo chamado ".env" com este conteudo
 #      (substitua pelos seus dados reais):
-#         SALA_DO_FUTURO_RA=seu_ra_aqui
+#         SALA_DO_FUTURO_RA=seu_ra_aqui_sem_o_digito
+#         SALA_DO_FUTURO_DIGITO=seu_digito_aqui
 #         SALA_DO_FUTURO_SENHA=sua_senha_aqui
 #   3. Rode este arquivo normalmente (o .env e lido automaticamente).
 #
 # IMPORTANTE: sites de login mudam de layout com o tempo, e o selenium
-# encontra os campos pelo "id"/"name" deles no HTML. Os nomes usados abaixo
-# sao os mais comuns nesse tipo de site, mas se der erro de "elemento nao
-# encontrado", abra o site, aperte F12 (Inspecionar), clique com o botao
-# direito no campo de RA/senha -> Inspecionar, e veja o id/name real para
-# ajustar aqui.
+# encontra os campos pelo "placeholder" deles no HTML (o texto cinza que
+# aparece dentro do campo antes de digitar), porque essa pagina e feita em
+# React e os "id" dos campos sao gerados aleatoriamente a cada carregamento.
+# Se der erro de "elemento nao encontrado", abra o site, aperte F12
+# (Inspecionar), clique com o botao direito no campo -> Inspecionar, e ajuste
+# o seletor (By.XPATH / placeholder) usado abaixo.
 
 import os
 import time
@@ -31,18 +33,19 @@ import time
 from dotenv import load_dotenv
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
 
 load_dotenv()  # le o arquivo .env e disponibiliza os valores com os.getenv()
 
 ra = os.getenv("SALA_DO_FUTURO_RA")
+digito = os.getenv("SALA_DO_FUTURO_DIGITO")
 senha = os.getenv("SALA_DO_FUTURO_SENHA")
 
-if not ra or not senha:
+if not ra or not digito or not senha:
     raise SystemExit(
-        "RA ou senha nao encontrados.\n"
-        "Crie um arquivo .env nesta pasta com SALA_DO_FUTURO_RA e "
-        "SALA_DO_FUTURO_SENHA (veja as instrucoes no topo deste arquivo)."
+        "RA, digito ou senha nao encontrados.\n"
+        "Crie um arquivo .env nesta pasta com SALA_DO_FUTURO_RA, "
+        "SALA_DO_FUTURO_DIGITO e SALA_DO_FUTURO_SENHA (veja as instrucoes "
+        "no topo deste arquivo)."
     )
 
 navegador = webdriver.Chrome()
@@ -53,18 +56,30 @@ try:
     navegador.get("https://saladofuturo.educacao.sp.gov.br/login-alunos")
     time.sleep(3)   # da tempo da pagina (feita em React) terminar de carregar
 
-    # 2. Preenche o campo de RA, devagar para dar para acompanhar na tela
-    campo_ra = navegador.find_element(By.ID, "RA")
+    # 2. Preenche o campo de RA (o primeiro campo numerico da tela)
+    campo_ra = navegador.find_element(
+        By.XPATH, "//label[normalize-space()='RA']/following::input[1]"
+    )
     campo_ra.send_keys(ra)
     time.sleep(1)
 
-    # 3. Preenche o campo de senha
-    campo_senha = navegador.find_element(By.ID, "Senha")
+    # 3. Preenche o campo de Digito RA (o segundo campo numerico, ao lado do RA)
+    campo_digito = navegador.find_element(
+        By.XPATH, "//label[contains(., 'gito')]/following::input[1]"
+    )
+    campo_digito.send_keys(digito)
+    time.sleep(1)
+
+    # 4. Preenche o campo de senha
+    campo_senha = navegador.find_element(By.CSS_SELECTOR, "input[placeholder='Digite sua senha']")
     campo_senha.send_keys(senha)
     time.sleep(1)
 
-    # 4. Envia o formulario apertando Enter (poderia tambem clicar no botao de entrar)
-    campo_senha.send_keys(Keys.ENTER)
+    # 5. Clica no botao "Acessar" para enviar o formulario
+    botao_acessar = navegador.find_element(
+        By.XPATH, "//button[contains(., 'Acessar')]"
+    )
+    botao_acessar.click()
     time.sleep(3)   # espera a pagina seguinte (apos o login) carregar
 
     print("Login enviado! Titulo da pagina agora:", navegador.title)

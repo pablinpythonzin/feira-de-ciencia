@@ -1,0 +1,76 @@
+GLOSSARIO - TERMOS PARA A APRESENTACAO DA FEIRA DE CIENCIAS
+=============================================================
+
+TERMOS GERAIS DE PROGRAMACAO / PYTHON
+--------------------------------------
+
+Sintaxe
+    As regras de escrita do codigo (a "gramatica" do Python). Se a
+    sintaxe esta errada, o codigo nem roda.
+
+Variavel
+    Um "espaco com nome" que guarda um valor. Exemplo: ra = "123"
+
+Funcao
+    Um bloco de codigo reutilizavel que recebe entradas e devolve um
+    resultado. Exemplo: def nome_da_funcao():
+
+Biblioteca / modulo
+    Codigo pronto que outras pessoas escreveram e voce importa
+    (import selenium), para nao precisar reinventar a roda.
+
+PEP 8
+    O guia oficial de estilo do Python (nomes de variavel em
+    minusculo, indentacao de 4 espacos, etc). E tipo as normas ABNT
+    da escrita de codigo Python.
+
+Comentario
+    Texto no codigo (depois do simbolo #) que explica algo para quem
+    le. O Python ignora esse texto ao executar o programa.
+
+
+TERMOS ESPECIFICOS DO PROJETO DE SELENIUM
+--------------------------------------------
+
+Automacao web
+    Usar codigo para controlar um navegador e fazer acoes que uma
+    pessoa faria manualmente, como clicar e digitar.
+
+Selenium
+    A biblioteca Python que permite essa automacao do navegador.
+
+DOM (Document Object Model)
+    A estrutura da pagina web em forma de arvore. E nela que o
+    Selenium procura os campos do formulario.
+
+Seletor / elemento
+    A forma de "apontar" para um campo especifico da pagina. Pode
+    ser pelo id, pelo texto do rotulo (label) ou pelo placeholder.
+
+Variavel de ambiente
+    Um valor guardado fora do codigo (no arquivo .env), lido apenas
+    quando o programa roda. Usado aqui para esconder a senha.
+
+.gitignore
+    Arquivo que diz ao Git quais arquivos NUNCA devem ser enviados
+    ao repositorio. Protege dados sensiveis, como senhas.
+
+Dado sensivel / credencial
+    Informacao que nao pode vazar (senha, RA). Por isso ela fica
+    fora do codigo-fonte, guardada so no arquivo .env local.
+
+
+ROTEIRO CURTO DE FALA (30-60 segundos)
+-----------------------------------------
+
+"Esse projeto usa a biblioteca Selenium para fazer automacao web:
+o codigo controla o navegador sozinho, preenchendo os campos de
+login como se fosse uma pessoa digitando. O Selenium encontra cada
+campo do formulario procurando na estrutura da pagina, o DOM, usando
+seletores baseados no rotulo e no placeholder de cada campo.
+
+Um cuidado importante aqui foi seguranca: a senha e o RA nunca ficam
+escritos direto no codigo. Eles ficam guardados em um arquivo separado
+chamado .env, que fica so no computador de quem roda o projeto e nunca
+e enviado para o GitHub, porque esta listado no .gitignore. Assim, o
+codigo pode ser publico sem expor nenhum dado sensivel."
