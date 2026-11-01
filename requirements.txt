@@ -4,3 +4,4 @@ selenium
 pygame
 openpyxl
 python-dotenv
+caguei
